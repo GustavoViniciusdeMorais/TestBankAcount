@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+    nginx:
+        build:
+            context: .
+            dockerfile: nginx.dockerfile
+        ports:
+            - 80:80
+        volumes:
+            - ./:/var/www/html
+        container_name: tnginx
+        depends_on:
+            - php
+            - postgres
+        networks:
+            - app-network
+
+    php:
+        build:
+            context: .
+            dockerfile: php.dockerfile
+        volumes:
+            - ./:/var/www/html
+        container_name: tphp
+        networks:
+            - app-network
+
+    postgres:
+        build:
+            context: .
+            dockerfile: pgsql.dockerfile
+        restart: always
+        container_name: tpostgres
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_DB=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        volumes:
+            - ./data/db:/var/lib/postgresql/data
+        networks:
+            app-network:
+                ipv4_address: 10.0.0.8
+    
+    # redis:
+    #     image: redis
+    #     container_name: redis
+    #     ports:
+    #         - 6379:6379
+    #     networks:
+    #         app-network:
+    #             ipv4_address: 10.0.0.9
+
+networks:
+    app-network:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: "10.0.0.0/16"
