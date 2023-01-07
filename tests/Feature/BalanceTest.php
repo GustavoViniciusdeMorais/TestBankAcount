@@ -14,18 +14,20 @@ class BalanceTest extends TestCase
      *
      * @return void
      */
-    public function showBalance()
+    public function test_showBalance()
     {
         $data = [
-            'id' => '1',
+            'balance' => '1',
         ];
 
-        $this->get(route('accounts.balance.show'), $data)
+        $expected = [
+            'account_id' => 1
+        ];
+
+        $this->get(route('balances.show', $data))
             ->dump()
-            ->assertStatus(201)
-            ->assertJson(fn (AssertableJson $json) =>
-                $json->has('data')
-            );
+            ->assertStatus(200)
+            ->assertJsonFragment($expected);
     }
 
     /**
@@ -33,7 +35,7 @@ class BalanceTest extends TestCase
      *
      * @return void
      */
-    public function registerBalance()
+    public function test_registerBalance()
     {
         $data = [
             'value' => 100.00,
@@ -41,13 +43,11 @@ class BalanceTest extends TestCase
         ];
 
         $expected = [
-            'data' => [
-                'value' => 100.00,
-                'account_id' => '1'
-            ]
+            'value' => 100.00,
+            'account_id' => '1'
         ];
 
-        $this->post(route('accounts.balance.store'), $data)
+        $this->post(route('balances.store'), $data)
             ->dump()
             ->assertStatus(201)
             ->assertJsonFragment($expected);
@@ -58,26 +58,24 @@ class BalanceTest extends TestCase
      *
      * @return void
      */
-    public function updateBalance()
+    public function test_updateBalance()
     {
         $data = [
-            'id' => '1',
-            'data' => [
-                'value' => 200.00,
-                'account_id' => '1'
-            ]
+            'value' => 200.00,
+            'account_id' => '1'
         ];
 
         $expected = [
-            'data' => [
-                'value' => 200.00,
-                'account_id' => '1'
-            ]
+            'value' => 200.00,
+            'account_id' => '1'
         ];
 
-        $this->post(route('accounts.balance.update'), $data)
+        $this->put(
+                route('balances.update', ['balance' => 1]),
+                $data
+            )
             ->dump()
-            ->assertStatus(201)
+            ->assertStatus(200)
             ->assertJsonFragment($expected);
     }
 }

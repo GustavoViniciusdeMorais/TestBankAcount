@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashBoardController;
 use App\Http\Controllers\Auth\MyAuthController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\BalanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +23,12 @@ Route::post('/logout', [MyAuthController::class, 'logout'])->name('auth.logout')
 Route::get('register/form', [MyAuthController::class, 'registerForm'])->name('register.form');
 Route::post('/register', [AccountController::class, 'store'])->name('register');
 
+Route::resource('/balances', BalanceController::class);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/', [DashBoardController::class, 'index']);
 
     Route::resource('/accounts', AccountController::class);
+
+    
 });
