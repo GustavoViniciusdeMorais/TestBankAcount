@@ -6,30 +6,34 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class AccountTest extends TestCase
+class UserTest extends TestCase
 {
     /**
      * A basic feature test example.
      *
      * @return void
      */
-    public function createAccount()
+    public function test_create()
     {
         $data = [
             'name' => 'Gustavo',
-            'cpf' => '33120354147'
+            'cpf' => '33120354147',
+            'email' => 'gustavo@test.com',
+            'password' => '123456',
+            'c_password' => '123456'
         ];
 
         $expected = [
             'data' => [
                 'name' => 'Gustavo',
-                'cpf' => '33120354147'
-            ];
+                'cpf' => '33120354147',
+                'email' => 'gustavo@test.com'
+            ]
         ];
 
-        $this->post(route('accounts.store'), $data)
+        $this->post(route('register'), $data)
             ->dump()
             ->assertStatus(201)
-            ->assertJson($expected);
+            ->assertJsonFragment($expected);
     }
 }

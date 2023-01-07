@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Testing\Fluent\AssertableJson;
 
 class BalanceTest extends TestCase
 {
@@ -19,7 +20,7 @@ class BalanceTest extends TestCase
             'id' => '1',
         ];
 
-        $this->get(route('balance.show'), $data)
+        $this->get(route('accounts.balance.show'), $data)
             ->dump()
             ->assertStatus(201)
             ->assertJson(fn (AssertableJson $json) =>
@@ -43,13 +44,13 @@ class BalanceTest extends TestCase
             'data' => [
                 'value' => 100.00,
                 'account_id' => '1'
-            ];
+            ]
         ];
 
-        $this->post(route('balance.store'), $data)
+        $this->post(route('accounts.balance.store'), $data)
             ->dump()
             ->assertStatus(201)
-            ->assertJson($expected);
+            ->assertJsonFragment($expected);
     }
 
     /**
@@ -71,12 +72,12 @@ class BalanceTest extends TestCase
             'data' => [
                 'value' => 200.00,
                 'account_id' => '1'
-            ];
+            ]
         ];
 
-        $this->post(route('balance.update'), $data)
+        $this->post(route('accounts.balance.update'), $data)
             ->dump()
             ->assertStatus(201)
-            ->assertJson($expected);
+            ->assertJsonFragment($expected);
     }
 }

@@ -38,8 +38,6 @@ services:
             - POSTGRES_DB=postgres
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=postgres
-        volumes:
-            - ./data/db:/var/lib/postgresql/data
         networks:
             app-network:
                 ipv4_address: 10.0.0.8

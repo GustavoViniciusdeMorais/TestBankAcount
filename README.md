@@ -35,6 +35,15 @@ php artisan tinker
 \App\Models\Product::find(1)->short_title
 ```
 
+### Postgres
+```
+psql -d postgres -U postgres
+\l # list databases
+\c # connect to database
+\dt # show tables
+\d table # describe table
+select * from customers;
+```
 
 ### Database Commands
 

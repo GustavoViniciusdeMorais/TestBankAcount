@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\AccountRequest;
+use App\Actions\Account\CreateAction;
 
 class AccountController extends Controller
 {
@@ -32,9 +34,19 @@ class AccountController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AccountRequest $request)
     {
-        //
+        try {
+            $action = new CreateAction();
+            return $action->withData($request->all())->execute();
+        } catch (\Exception $e) {
+            return [
+                'msg' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
+                'trace' => $e->getTrace()
+            ];
+        }
     }
 
     /**
@@ -66,7 +78,7 @@ class AccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AccountRequest $request, $id)
     {
         //
     }
