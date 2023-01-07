@@ -4,6 +4,13 @@ I build this repository to save the setup for Laravel projects with my docker fi
 
 Created by: Gustavo Vinicius
 
+### Run Tests
+```
+
+php artisan test --filter UserTest
+
+```
+
 Composer requirements:
 
 ```

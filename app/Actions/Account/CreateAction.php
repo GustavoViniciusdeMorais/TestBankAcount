@@ -7,28 +7,29 @@ use App\Models\User;
 use App\Models\Account;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Str;
+use App\Lib\Traits\CpfValidator;
+use App\Lib\Exceptions\MyException;
 
 class CreateAction extends BaseAction
 {
+    use CpfValidator;
 
     public function execute()
     {
-        $this->validateCpf();
-        $user = User::create($this->data);
+        $validCpf = $this->validateCpf($this->data['cpf']);
 
-        $uuid = (string) Str::uuid();
-        Account::create([
-            'uuid' => $uuid,
-            'user_id' => $user->id
-        ]);
+        if ($validCpf) {
+            $user = User::create($this->data);
 
-        return new UserResource($user);
-    }
+            $uuid = (string) Str::uuid();
+            Account::create([
+                'uuid' => $uuid,
+                'user_id' => $user->id
+            ]);
 
-    public function validateCpf()
-    {
-        print_r(json_encode([
-            'validate cpf' => $this->data
-        ]));echo "\n\n";exit;
+            return new UserResource($user);
+        }
+
+        throw new MyException("CPF inválido");
     }
 }

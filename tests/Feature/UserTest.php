@@ -24,11 +24,9 @@ class UserTest extends TestCase
         ];
 
         $expected = [
-            'data' => [
-                'name' => 'Gustavo',
-                'cpf' => '33120354147',
-                'email' => 'gustavo@test.com'
-            ]
+            'name' => 'Gustavo',
+            'cpf' => '33120354147',
+            'email' => 'gustavo@test.com'
         ];
 
         $this->post(route('register'), $data)
