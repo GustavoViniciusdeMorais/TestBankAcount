@@ -7,6 +7,11 @@ Created by: Gustavo Vinicius
 ### Run Tests
 ```
 
+sudo docker-compose up -d --build
+
+sudo docker exec -it tphp sh
+
+php artisan migrate:refresh
 php artisan test --filter UserTest
 php artisan test --filter BalanceTest
 php artisan test --filter TransactionsTest
