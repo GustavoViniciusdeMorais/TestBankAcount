@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\AccountRequest;
 use App\Actions\Account\CreateAction;
+use App\Actions\Account\GetAction;
 
 class AccountController extends Controller
 {
@@ -57,7 +58,17 @@ class AccountController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $action = new GetAction();
+            return $action->withData($id)->execute();
+        } catch (\Exception $e) {
+            return [
+                'msg' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
+                'trace' => $e->getTrace()
+            ];
+        }
     }
 
     /**
