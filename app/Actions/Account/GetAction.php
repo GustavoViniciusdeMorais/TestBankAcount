@@ -11,7 +11,7 @@ class GetAction extends BaseAction
 
     public function execute()
     {
-        $user = User::where('id', $this->data)->first();
+        $user = User::where('id', $this->data)->with(['account.balance'])->first();
         return new UserResource($user);
     }
 }

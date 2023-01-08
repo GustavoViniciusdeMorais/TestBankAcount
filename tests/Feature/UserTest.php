@@ -21,15 +21,15 @@ class UserTest extends TestCase
         $data = [
             'name' => 'Gustavo',
             'cpf' => '33120354147',
-            'email' => 'gustavo@test.com',
-            'password' => '123456',
-            'c_password' => '123456'
+            'email' => 'gustavo@email.com',
+            'password' => 'gus123',
+            'c_password' => 'gus123'
         ];
 
         $expected = [
             'name' => 'Gustavo',
             'cpf' => '33120354147',
-            'email' => 'gustavo@test.com'
+            'email' => 'gustavo@email.com'
         ];
 
         $this->post(route('register'), $data)

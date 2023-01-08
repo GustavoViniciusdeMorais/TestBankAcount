@@ -9,7 +9,7 @@
             </div>
 
             <div class="card-body">
-                <form method="post" action="{{route('auth.login')}}">
+                <form method="post" action="{{route('register')}}">
             
                     @csrf
                     @method('POST')
@@ -37,7 +37,7 @@
                     <label for="">
                         Confirm Password
                     </label>
-                    <input type="c_password" name="password" class="form-control" />
+                    <input type="password" name="c_password" class="form-control" />
         
                     <br>
                     <button class="btn btn-primary btn-block">

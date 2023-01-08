@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\AccountRequest;
 use App\Actions\Account\CreateAction;
 use App\Actions\Account\GetAction;
+use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
@@ -39,7 +40,18 @@ class AccountController extends Controller
     {
         try {
             $action = new CreateAction();
-            return $action->withData($request->all())->execute();
+            $result = $action->withData($request->all())->execute();
+            
+            Auth::loginUsingId($result->id);
+
+            $console = app()->runningInConsole();
+
+            if ($console) {
+                return $result;
+            } else {
+                return redirect()->route('dashboard');
+            }
+
         } catch (\Exception $e) {
             return [
                 'msg' => $e->getMessage(),

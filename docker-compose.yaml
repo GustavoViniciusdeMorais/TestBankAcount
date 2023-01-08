@@ -12,7 +12,7 @@ services:
         container_name: tnginx
         depends_on:
             - php
-            - postgres
+            - mysql
         networks:
             - app-network
 
@@ -26,22 +26,35 @@ services:
         networks:
             - app-network
 
-    postgres:
-        build:
-            context: .
-            dockerfile: pgsql.dockerfile
+    # postgres:
+    #     build:
+    #         context: .
+    #         dockerfile: pgsql.dockerfile
+    #     restart: always
+    #     container_name: tpostgres
+    #     ports:
+    #         - 5432:5432
+    #     environment:
+    #         - POSTGRES_DB=postgres
+    #         - POSTGRES_USER=postgres
+    #         - POSTGRES_PASSWORD=postgres
+    #     networks:
+    #         app-network:
+    #             ipv4_address: 10.0.0.8
+    
+    mysql:
+        image: mysql:5.7
         restart: always
-        container_name: tpostgres
         ports:
-            - 5432:5432
+            - 3306:3306
+        container_name: tmysql
         environment:
-            - POSTGRES_DB=postgres
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=postgres
+            MYSQL_DATABASE: laravel
+            MYSQL_ROOT_PASSWORD: laravel
         networks:
             app-network:
                 ipv4_address: 10.0.0.8
-    
+
     # redis:
     #     image: redis
     #     container_name: redis

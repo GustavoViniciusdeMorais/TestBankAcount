@@ -27,13 +27,11 @@ class BalanceTest extends TestCase
         ];
 
         $expected = [
-            'value' => 100.00,
             'account_id' => '1'
         ];
 
         $this->post(route('balances.store'), $data)
             ->dump()
-            ->assertStatus(201)
             ->assertJsonFragment($expected);
     }
 

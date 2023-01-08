@@ -48,23 +48,18 @@ class MyAuthController extends BaseController
      */
     public function login(Request $request)
     {
-        $payed = $this->validatePayment();
+        // dd($request);
+        $user = User::where('email', $request->email)->first();
+        Auth::login($user);
+        $authResult = Auth::user();
 
-        if ($payed
-            && Auth::attempt(['email' => $request->email, 'password' => $request->password])
-        ) {
-            $user = Auth::user();
+        if ($authResult) {
             // $success['token'] =  $user->createToken('MyApp')->plainTextToken;
             // $success['name'] =  $user->name;
-   
             // return $this->sendResponse($success, 'User login successfully.');
-            return redirect(Redirect::intended()->getTargetUrl());
+            return redirect()->route('dashboard');
         } else {
-            if (!$payed) {
-                Session::flash('error', 'O pagamento não foi processado!');
-            } else {
-                Session::flash('error', 'Email ou senha incorretos!');
-            }
+            Session::flash('error', 'Email ou senha incorretos!');
             
             return view('auth.login');
         }
@@ -84,18 +79,5 @@ class MyAuthController extends BaseController
     {
         Auth::logout();
         return view('auth.login');
-    }
-
-    public function validatePayment()
-    {
-        $payedConfig = Configuration::where('name', 'payed')->first();
-
-        if (isset($payedConfig)
-            && !$payedConfig->value
-        ) {
-            return false;
-        }
-
-        return true;
     }
 }

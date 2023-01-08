@@ -25,7 +25,7 @@ Route::get('register/form', [MyAuthController::class, 'registerForm'])->name('re
 Route::post('/register', [AccountController::class, 'store'])->name('register');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/', [DashBoardController::class, 'index']);
+    Route::get('/', [DashBoardController::class, 'index'])->name('dashboard');
 
     Route::resource('/balances', BalanceController::class);
     Route::resource('/accounts', AccountController::class);

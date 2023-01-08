@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Actions\Balance\GetAction;
 use App\Actions\Balance\CreateAction;
 use App\Http\Requests\BalanceRequest;
 use App\Actions\Balance\UpdateAction;
+use App\Actions\Account\GetAction AS GetAccountAction;
 
 class BalanceController extends Controller
 {
@@ -17,7 +19,8 @@ class BalanceController extends Controller
      */
     public function index()
     {
-        //
+        $account = $this->getAccount();
+        return view('balance.index')->with(['account' => $account]);
     }
 
     /**
@@ -27,7 +30,8 @@ class BalanceController extends Controller
      */
     public function create()
     {
-        //
+        $account = $this->getAccount();
+        return view('balance.store')->with(['account' => $account]);
     }
 
     /**
@@ -40,7 +44,16 @@ class BalanceController extends Controller
     {
         try {
             $action = new CreateAction();
-            return $action->withData($request->all())->execute();
+            $result = $action->withData($request->all())->execute();
+
+            $console = app()->runningInConsole();
+
+            if ($console) {
+                return $result;
+            } else {
+                return redirect()->route('balances.index');
+            }
+
         } catch (\Exception $e) {
             return [
                 'msg' => $e->getMessage(),
@@ -119,5 +132,12 @@ class BalanceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getAccount()
+    {
+        $user = Auth::user();
+        $action = new GetAccountAction();
+        return $action->withData($user->id)->execute();
     }
 }
