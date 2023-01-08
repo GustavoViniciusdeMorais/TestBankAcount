@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Actions\Balance;
 
@@ -12,10 +12,10 @@ class GetAction extends BaseAction
     public function execute()
     {
         $balance = Balance::where(
-                'account_id', $this->data
-            )
+            'account_id',
+            $this->data
+        )
             ->first();
-        // print_r(json_encode([$balance]));echo "\n\n";exit;
         return new BalanceResource($balance);
     }
 }

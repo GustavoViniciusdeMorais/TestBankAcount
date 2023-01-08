@@ -28,8 +28,8 @@ class MyAuthController extends BaseController
             'c_password' => 'required|same:password',
         ]);
    
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
         }
    
         $input = $request->all();
@@ -50,11 +50,10 @@ class MyAuthController extends BaseController
     {
         $payed = $this->validatePayment();
 
-        if (
-            $payed
+        if ($payed
             && Auth::attempt(['email' => $request->email, 'password' => $request->password])
-        ) { 
-            $user = Auth::user(); 
+        ) {
+            $user = Auth::user();
             // $success['token'] =  $user->createToken('MyApp')->plainTextToken;
             // $success['name'] =  $user->name;
    
@@ -68,7 +67,7 @@ class MyAuthController extends BaseController
             }
             
             return view('auth.login');
-        } 
+        }
     }
 
     public function loginForm()

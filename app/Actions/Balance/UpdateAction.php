@@ -1,10 +1,11 @@
-<?php 
+<?php
 
 namespace App\Actions\Balance;
 
 use App\Actions\BaseAction;
 use App\Models\Balance;
 use App\Http\Resources\BalanceResource;
+use App\Models\Transaction;
 
 class UpdateAction extends BaseAction
 {
@@ -17,8 +18,18 @@ class UpdateAction extends BaseAction
         ];
 
         $balance = Balance::where('id', $this->data['id'])->first();
-        $balance->update($newData);
         
+        Transaction::create(
+            [
+                'old_value' => $balance->value,
+                'new_value' => $this->data['value'],
+                'account_id' => $this->data['account_id'],
+                'balance_id' => $balance->id
+            ]
+        );
+        
+        $balance->update($newData);
+
         return new BalanceResource($balance);
     }
 }

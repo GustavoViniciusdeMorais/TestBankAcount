@@ -12,6 +12,5 @@ class Transaction extends Model
 
     public function account()
     {
-        
     }
 }

@@ -16,7 +16,8 @@ class AccountResource extends JsonResource
     {
         return [
             'uuid' => $this->uuid,
-            'user_id' => $this->user_id
+            'user_id' => $this->user_id,
+            'transactions' => new TransactionsCollection($this->transactions)
         ];
     }
 }

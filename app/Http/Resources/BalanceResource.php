@@ -17,7 +17,8 @@ class BalanceResource extends JsonResource
         return [
             'id' => $this->id,
             'account_id' => $this->account_id,
-            'value' => $this->value
+            'value' => $this->value,
+            'transactions' => new TransactionsCollection($this->transactions)
         ];
     }
 }

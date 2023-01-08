@@ -22,6 +22,6 @@ class Account extends Model
 
     public function transactions()
     {
-        return $this->hasMany(Transactions::class, 'id', 'account_id');
+        return $this->hasMany(Transaction::class, 'id', 'account_id');
     }
 }

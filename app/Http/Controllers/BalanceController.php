@@ -92,7 +92,6 @@ class BalanceController extends Controller
      */
     public function update($id, BalanceRequest $request)
     {
-        // print_r(json_encode(['update']));echo "\n\n";exit;
         try {
             $data = [
                 'id' => $id,

@@ -8,6 +8,17 @@ Created by: Gustavo Vinicius
 ```
 
 php artisan test --filter UserTest
+php artisan test --filter BalanceTest
+php artisan test --filter TransactionsTest
+
+```
+
+### Fix code errors
+```
+
+composer require squizlabs/php_codesniffer
+
+vendor/bin/phpcbf --standard=PSR2 app/*
 
 ```
 

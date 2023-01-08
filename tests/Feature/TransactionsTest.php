@@ -6,26 +6,33 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Testing\Fluent\AssertableJson;
+use App\Lib\Traits\AuthForTest;
 
 class TransactionsTest extends TestCase
 {
+    use AuthForTest;
+    
     /**
      * A basic feature test example.
      *
      * @return void
      */
-    public function searchTransactions()
+    public function test_searchTransactions()
     {
+        $this->testAuth();
+
         $data = [
-            'start_date' => '2022-02-02',
+            'start_date' => '2023-01-02',
             'end_date' => '2023-09-09'
         ];
 
-        $this->get(route('accounts.transactions.search'), $data)
+        $expected = [
+            'balance_id' => 1
+        ];
+
+        $this->post(route('transactions.index'), $data)
             ->dump()
-            ->assertStatus(201)
-            ->assertJson(fn (AssertableJson $json) =>
-                $json->has('data')
-            );
+            ->assertStatus(200)
+            ->assertJsonFragment($expected);
     }
 }
