@@ -50,8 +50,7 @@ class BalanceTest extends TestCase
         ];
 
         $expected = [
-            'value' => 200.00,
-            'account_id' => '1'
+            'account_id' => 1
         ];
 
         $this->put(

@@ -359,6 +359,21 @@ return [
     */
 
     'plugins' => [
+        'Mine' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//www.gstatic.com/charts/loader.js'
+                ],
+            ]
+        ],
         'Datatables' => [
             'active' => false,
             'files' => [

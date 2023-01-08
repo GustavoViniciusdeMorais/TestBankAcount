@@ -12,24 +12,39 @@ class UpdateAction extends BaseAction
 
     public function execute()
     {
-        $newData = [
-            'account_id' => $this->data['account_id'],
-            'value' => $this->data['value']
-        ];
-
         $balance = Balance::where('id', $this->data['id'])->first();
-        
-        Transaction::create(
-            [
-                'old_value' => $balance->value,
-                'new_value' => $this->data['value'],
+
+        $canDraw = $this->canWithDraw($this->data['value'], $balance->value);
+
+        if ($canDraw) {
+            $newValue = $balance->value - $this->data['value'];
+
+            $newData = [
                 'account_id' => $this->data['account_id'],
-                'balance_id' => $balance->id
-            ]
-        );
-        
-        $balance->update($newData);
+                'value' => $newValue
+            ];
+            
+            Transaction::create(
+                [
+                    'old_value' => $balance->value,
+                    'new_value' => $this->data['value'],
+                    'account_id' => $this->data['account_id'],
+                    'balance_id' => $balance->id
+                ]
+            );
+            
+            $balance->update($newData);
+        }
 
         return new BalanceResource($balance);
+    }
+
+    public function canWithDraw($drawValue, $currentValue)
+    {
+        if ($currentValue > $drawValue) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

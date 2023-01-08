@@ -12,7 +12,18 @@ class TransactionController extends Controller
     {
         try {
             $action = new GetAllAction();
-            return $action->withData($request->all())->execute();
+            $result = $action->withData($request->all())->execute();
+
+            $console = app()->runningInConsole();
+
+            if ($console) {
+                return $result;
+            } else {
+                return view('transactions.index')
+                    ->with([
+                        'transactions' => $result
+                    ]);
+            }
         } catch (\Exception $e) {
             return [
                 'msg' => $e->getMessage(),

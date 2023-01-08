@@ -93,7 +93,8 @@ class BalanceController extends Controller
      */
     public function edit($id)
     {
-        //
+        $account = $this->getAccount();
+        return view('balance.update')->with(['account' => $account]);
     }
 
     /**
@@ -112,7 +113,16 @@ class BalanceController extends Controller
                 'account_id' => $request->account_id
             ];
             $action = new UpdateAction();
-            return $action->withData($data)->execute();
+            $result = $action->withData($data)->execute();
+
+            $console = app()->runningInConsole();
+
+            if ($console) {
+                return $result;
+            } else {
+                return redirect()->route('balances.index');
+            }
+
         } catch (\Exception $e) {
             return [
                 'msg' => $e->getMessage(),

@@ -9,10 +9,18 @@
             Account: {{ $account->account->uuid }}
         </div>
         <div class="card-body">
-            Balance: {{ $account->account->balance->value ?? '0' }}
+            <strong>Valor na conta:</strong> {{ $account->account->balance->value ?? '0' }}
         </div>
         <div class="card-footer">
             <a href="{{ route('balances.create') }}">Depositar</a>
+
+            @if (isset($account->account->balance))
+                <a 
+                    href="{{route('balances.edit', ['balance'=>$account->account->balance->id])}}"
+                    >
+                    Sacar
+                </a>
+            @endif
         </div>
     </div>
 @stop
